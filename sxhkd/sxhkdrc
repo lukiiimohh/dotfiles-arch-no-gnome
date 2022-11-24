@@ -1,0 +1,97 @@
+#
+# LUK SXHKD KEYBINDINGS
+#
+
+# Abrir terminal (Return=Enter)
+super + Return
+	kitty
+
+# Desplegar launcher del rofi
+super + @space
+	~/.config/rofi/launchers/type-3/launcher.sh
+
+# Recargar y aplicar los cambios de sxhkd (este mismo archivo)
+super + Escape
+	pkill -USR1 -x sxhkd
+
+#
+# Atajos exclusivos de bspwm
+#
+
+# Quitar/Reiniciar BSPWM
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+# Cerrar y finalizar un proceso (ventana)
+super + q
+	bspc node -{c,k}
+
+# Cambiar el modo de apertura de nuevas ventanas (monocycled,tiled)
+super + m
+	bspc desktop -l next
+
+#
+# Cambio de ventanas / focus
+#
+
+# Cambia el focus de la ventana 
+super + {Left,Down,Up,Right}
+	bspc node -f {west,south,north,east}
+
+# Seleccion de las ventanas activas
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# Cambiar el focus del escritorio activo
+super + ctrl + {Left,Right}
+	bspc desktop -f {prev,next}.local
+
+# Manda la ventana actual al escritorio dado
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+#
+# Preselección de ventanas
+#
+
+# Preseleccionar dirección de la ventana
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
+# Abrir la ventana con más o menos tamaño
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# Cancelar la preselección
+super + ctrl + space
+	bspc node -p cancel
+
+#
+# Mover / Cambiar tamaño
+#
+
+# Cambiar tamaño de las ventanas
+super + r : {super +,shift + super + }a
+  val={50,10}; bspc node @west -r -${val} || bspc node @east -r -${val}
+super + r : {super + ,shift + super + }d
+  val={50,10}; bspc node @west -r +${val} || bspc node @east -r +${val}
+super + r : {super +,shift + super + }w
+  val={50,10}; bspc node @north -r -${val} || bspc node @south -r -${val}
+super + r : {super +,shift + super + }s
+  val={50,10}; bspc node @north -r +${val} || bspc node @south -r +${val}
+
+#
+# Atajos personalizados
+#
+
+# Firefox
+super + shift + f
+	firefox
+
+# Captura de pantalla Rofi
+super + shift + s
+	~/.config/rofi/applets/bin/screenshot.sh
+
+# Copiar IP de [module/menu-ip]
+super + shift + i
+	~/.config/bin/show-ip.sh
